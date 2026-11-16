@@ -1,0 +1,39 @@
+# Push-напоминания: раз в час проверяем, кому пора напомнить (см. scripts/send-reminders.mjs).
+# Нужны секреты репозитория: FIREBASE_SERVICE_ACCOUNT и VAPID_PRIVATE_KEY (npm run push:setup).
+# GitHub может запускать расписание с опозданием до ~30 мин — правила это учитывают (окно 2 часа).
+# Важно: в публичных репо расписание отключается после 60 дней без коммитов — тогда включи его
+# вручную во вкладке Actions или сделай любой коммит.
+name: reminders
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Только показать, кому отправилось бы (1 = да)'
+        default: '0'
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    if: ${{ vars.PUSH_DISABLED != '1' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Зависимости (только для рассылки)
+        run: npm install --no-save --no-package-lock --ignore-scripts firebase-admin@13 web-push@3
+      - name: Проверка секретов
+        id: check
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          VK: ${{ secrets.VAPID_PRIVATE_KEY }}
+        run: |
+          if [ -z "$SA" ] || [ -z "$VK" ]; then echo "Секреты не заданы — пропускаю (README → Push)"; echo "skip=1" >> "$GITHUB_OUTPUT"; fi
+      - name: Рассылка
+        if: steps.check.outputs.skip != '1'
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == '1' && '1' || '' }}
+        run: node scripts/send-reminders.mjs

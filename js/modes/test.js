@@ -43,8 +43,8 @@ export function createMode(ctx) {
     buttons.forEach((b) => { b.disabled = true; });
     buttons[i].classList.add(ok ? 'is-correct' : 'is-wrong');
     if (ok) {
-      await sleep(550);
-      ctx.grade(3);
+      await sleep(450);
+      ctx.grade(3, { anchor: buttons[i] });
       return;
     }
     buttons.find((b) => b.lastChild.textContent === item.back)?.classList.add('is-correct');

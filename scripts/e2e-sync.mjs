@@ -96,6 +96,23 @@ try {
   });
   check(denied, 'правила: чужая коллекция недоступна');
 
+  // ---- Push: устройство сохраняет подписку, скрипт рассылки находит её и решает напомнить ----
+  const hourUtc = new Date().getUTCHours();
+  await run(A, async (hour) => {
+    const sync = await import('./js/sync.js');
+    await sync.setPushDoc('dev-test', {
+      enabled: true, subscription: { endpoint: 'https://push.example/test', keys: { p256dh: 'x', auth: 'y' } },
+      timeZone: 'UTC', lang: 'sk', reminderHour: hour, saverHour: null, lastStudyDay: null, streak: 3,
+      dueByDay: {}, updatedAt: Date.now(),
+    });
+  }, hourUtc);
+  check(true, 'push: документ подписки записан с устройства (правила пустили)');
+  const { spawnSync } = await import('node:child_process');
+  const out = spawnSync(process.execPath, ['scripts/send-reminders.mjs'], {
+    env: { ...process.env, DRY_RUN: '1', GCLOUD_PROJECT: 'demo-slovicka' }, encoding: 'utf8',
+  });
+  check(/daily — Čas na slovíčka/.test(out.stdout), `push: рассылка решила напомнить (${(out.stdout.match(/отправлено: \d+/) || [''])[0]})`);
+
   console.log(`\nВсе проверки синхронизации пройдены: ${ok}`);
 } catch (e) {
   console.error('\nПРОВАЛ:', e.message);

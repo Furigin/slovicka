@@ -11,6 +11,9 @@ import * as store from '../store.js';
 import { SessionQueue, todayFromLog } from '../queue.js';
 import { schedule, preview, formatInterval, srsConfig, GRADES } from '../srs.js';
 import { MIN } from '../days.js';
+import { xpFor, levelTitle } from '../gamify.js';
+import { loadProgress, unseenAchievements, markSeen, badgeEl } from '../progress.js';
+import { play, floatText, burst, countUp, sfx, unlockAudio } from '../fx.js';
 
 const MODE_LOADERS = {
   cards: () => import('../modes/cards.js'),
@@ -55,6 +58,7 @@ export async function render(el, params) {
   const lang = s.lang;
   const cfg = srsConfig(s);
 
+  const before = await loadProgress(); // для финального экрана: сколько было XP и какие значки
   const source = mode === 'grammar'
     ? await (await import('../grammar.js')).grammarSource()
     : await vocabSource(deckId);
@@ -64,12 +68,13 @@ export async function render(el, params) {
   const progressBar = h('i', { style: { width: '0%' } });
   const cNew = h('span', { class: 'c-new' }), cLearn = h('span', { class: 'c-learn' }), cRev = h('span', { class: 'c-review' });
   const menuBtn = h('button', { class: 'btn icon ghost', 'aria-label': '…', html: ICONS.more });
+  const comboBadge = h('div', { class: 'combo-badge', 'aria-live': 'polite' });
   const top = h('header', { class: 'session-top' },
     h('button', { class: 'btn icon ghost', 'aria-label': t('session.end'), html: ICONS.close, onclick: () => finish(false) }),
     h('div', { class: 'grow' },
       h('div', { class: 'progress' }, progressBar),
       h('div', { class: 'session-counts tiny' }, cNew, ' · ', cLearn, ' · ', cRev)),
-    menuBtn);
+    comboBadge, menuBtn);
   const stage = h('section', { class: 'stage' });
   const actions = h('footer', { class: 'session-actions' });
   mount(el, h('div', { class: ['session', `mode-${mode}`] }, top, stage, actions));
@@ -79,6 +84,7 @@ export async function render(el, params) {
   let current = null;       // текущий item (карточка + данные)
   let shownAt = 0;
   let done = 0, correct = 0, totalMs = 0;
+  let combo = 0, maxCombo = 0, xpGained = 0, typed = 0, diaErr = 0;
   let waitTimer = null;
   let busy = false;
   const sessionStart = Date.now();
@@ -111,15 +117,20 @@ export async function render(el, params) {
         const old = current.card;
         const next = { ...old, ...schedule(old, g, now, cfg) };
         const ms = now - shownAt;
+        const diacritic = !!meta.diacritic;
+        const xp = xpFor({ grade: g, mode, typeBefore: old.type, diacritic }, combo);
         await store.saveCard(next);
         await store.logReview({
           cardId: old.id, noteId: old.noteId || null, kind: source.kind, mode, grade: g,
-          typeBefore: old.type, ms, correct: meta.correct ?? g > 1, diacritic: !!meta.diacritic,
+          typeBefore: old.type, ms, correct: meta.correct ?? g > 1, diacritic, xp,
         });
         queue.answered(old, next, now);
         done++;
+        xpGained += xp;
         if (meta.correct ?? g > 1) correct++;
         totalMs += Math.min(ms, 60_000);
+        if (mode === 'typing' || mode === 'grammar') { typed++; if (diacritic) diaErr++; }
+        feedback(g, xp, diacritic, meta.anchor);
         await showNext();
       } finally { busy = false; }
     },
@@ -159,6 +170,25 @@ export async function render(el, params) {
   });
 
   // ----- Цикл показа -----
+  /** Отклик на ответ: звук, «+XP», комбо. */
+  function feedback(g, xp, diacritic, anchor) {
+    const ok = g > 1 && !diacritic;
+    combo = ok ? combo + 1 : 0;
+    maxCombo = Math.max(maxCombo, combo);
+    comboBadge.textContent = combo >= 3 ? `×${combo}` : '';
+    comboBadge.classList.toggle('hot', combo >= 10);
+    const target = anchor || actions.querySelector(`.grade.g${g}`) || stage;
+    floatText(target, `+${xp} XP`, g > 1 ? 'good' : '');
+    if (g === 1) { sfx.wrong(); if (mode === 'cards') ctx.glitch(); }
+    else if (g === 2) sfx.hard();
+    else if (g === 4) sfx.easy();
+    else sfx.good();
+    if (combo >= 5 && combo % 5 === 0) {
+      setTimeout(() => { floatText(comboBadge, `×${combo} kombo!`, 'combo'); sfx.combo(); }, 180);
+      play(comboBadge, 'pop');
+    }
+  }
+
   async function showNext({ learnAhead = true } = {}) {
     clearTimeout(waitTimer);
     updateTop();
@@ -169,6 +199,7 @@ export async function render(el, params) {
     if (!current) { queue.remove(n.card.id); return showNext(); }
     shownAt = Date.now();
     await impl.show(current);
+    play(stage, 'crt-on'); // карточка «включается», как ЭЛТ-экран
   }
 
   function showWait(ms) {
@@ -192,21 +223,56 @@ export async function render(el, params) {
     clearTimeout(waitTimer);
     impl.destroy?.();
     if (done > 0) {
-      await store.logSession({ start: sessionStart, end: Date.now(), count: done, mode, completed });
+      await store.logSession({ start: sessionStart, end: Date.now(), count: done, mode, completed, maxCombo, typed, diaErr, xp: xpGained });
       import('../sync.js').then((m) => m.syncSoon()).catch(() => {});
+      import('../reminders.js').then((m) => m.afterStudy()).catch(() => {});
     }
     if (!completed || done === 0) { go('learn'); return; }
     current = null;
-    const acc = done ? `${Math.round((correct / done) * 100)} %` : '—';
-    const mins = Math.max(1, Math.round(totalMs / MIN));
-    mount(stage, h('div', { class: 'empty rise' },
-      h('div', { class: 'face glow' }, ':)'),
-      h('h2', { class: 'glow accent' }, t('session.done')),
-      h('p', {}, t('session.doneSub', { n: done, acc })),
-      h('p', { class: 'dim small' }, `${mins} min`)));
-    mount(actions, h('button', { class: 'btn primary big block', onclick: () => go('learn') }, t('done')));
+    comboBadge.textContent = '';
     updateTop();
     progressBar.style.width = '100%';
+    await showSummary();
+  }
+
+  /** Финальный экран: XP со счётчиком, полоса уровня, новые значки, частицы. */
+  async function showSummary() {
+    const after = await loadProgress();
+    const acc = done ? Math.round((correct / done) * 100) : 0;
+    const mins = Math.max(1, Math.round(totalMs / MIN));
+    const lvlBefore = before.level, lvl = after.level;
+    const levelUp = lvl.level > lvlBefore.level;
+    const fresh = await unseenAchievements(after.unlocked);
+    const ru = lang === 'ru';
+
+    const xpNum = h('span', {}, '0');
+    const bar = h('i', { style: { width: `${Math.round((levelUp ? 0 : lvlBefore.progress) * 100)}%` } });
+    const stat = (v, label) => h('div', { class: 'tile' }, h('div', { class: 'tile-num' }, v), h('div', { class: 'tile-label' }, label));
+    mount(stage, h('div', { class: 'summary rise' },
+      h('div', { class: 'face glow summary-face' }, acc >= 90 ? '\\o/' : acc >= 70 ? ':D' : ':)'),
+      h('h2', { class: 'glow accent' }, t('session.done')),
+      h('div', { class: 'summary-xp glow' }, '+', xpNum, ' XP'),
+      levelUp && h('div', { class: 'levelup' }, `LEVEL UP → ${lvl.level} · ${levelTitle(lvl.level, lang)}`),
+      h('div', { class: 'level-line' },
+        h('span', { class: 'tiny dim' }, `Lv ${lvl.level} · ${levelTitle(lvl.level, lang)}`),
+        h('span', { class: 'tiny dim' }, `${lvl.into} / ${lvl.need} XP`)),
+      h('div', { class: 'progress level-bar' }, bar),
+      h('div', { class: 'tiles', style: { marginTop: '18px' } },
+        stat(String(done), t('stats.reviewed')),
+        stat(`${acc} %`, t('stats.accuracy')),
+        stat(`×${maxCombo}`, ru ? 'макс. комбо' : 'max kombo'),
+        stat(`${mins} min`, t('stats.time'))),
+      fresh.length > 0 && h('div', { class: 'summary-ach' },
+        h('div', { class: 'tiny dim', style: { margin: '18px 0 8px' } }, ru ? 'Новые достижения' : 'Nové odznaky'),
+        h('div', { class: 'ach-grid' }, fresh.map((a) => badgeEl(a, { fresh: true }))))));
+    mount(actions, h('button', { class: 'btn primary big block', onclick: () => go('learn') }, t('done')));
+
+    countUp(xpNum, xpGained, { ms: 900 });
+    setTimeout(() => { bar.style.width = `${Math.round(lvl.progress * 100)}%`; }, 300);
+    burst();
+    sfx.win();
+    if (levelUp || fresh.length) setTimeout(() => { burst({ count: 50, y: innerHeight / 3 }); sfx.unlock(); }, 700);
+    if (fresh.length) await markSeen(fresh.map((a) => a.id));
   }
 
   // ----- Клавиатура (для компьютера): 1–4 — оценки -----
@@ -215,6 +281,7 @@ export async function render(el, params) {
     impl.onKey?.(e);
   };
   document.addEventListener('keydown', onKey);
+  el.addEventListener('pointerdown', unlockAudio, { once: true }); // iOS: звук только после первого тапа
 
   if (!queue.remaining()) {
     mount(stage, h('div', { class: 'empty' }, h('div', { class: 'face' }, ':)'), h('p', {}, t('session.empty'))));

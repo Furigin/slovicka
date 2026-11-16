@@ -9,6 +9,7 @@ import { t } from '../i18n.js';
 import { compare } from '../compare.js';
 import { diacriticsBar } from '../diacritics.js';
 import { cardFace } from './common.js';
+import { play } from '../fx.js';
 
 export function createMode(ctx) {
   let item = null;
@@ -73,6 +74,7 @@ export function createMode(ctx) {
           h('span', { class: 'word diff big' }, result.expected.map((s) => h('span', { class: `d-${s.t}` }, s.s)))),
         item.fullAnswer && result.matched !== item.fullAnswer && h('div', { class: 'small dim' }, item.fullAnswer)));
     if (result.verdict === 'wrong') ctx.glitch();
+    if (result.verdict === 'correct') play(ctx.stage.querySelector('.verdict'), 'pulse-good');
 
     checkBtn.textContent = '→';
     mount(gradeSlot, ctx.gradeRow(item.card, {

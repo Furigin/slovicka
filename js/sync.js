@@ -232,3 +232,13 @@ export function renderAccountPanel(el) {
   // Если Firebase ещё грузится — перерисуем, когда загрузится
   if (firebaseConfig && !fb) initSync().then(draw).catch((e) => mount(el, h('p', { class: 'small' }, String(e))));
 }
+
+// ---------- Подписка на push (users/{uid}/push/{deviceId}) ----------
+/** Записать/обновить документ подписки этого устройства (merge). */
+export async function setPushDoc(deviceId, data) {
+  await initSync();
+  if (!user) throw new Error('login');
+  const batch = fb.writeBatch(fs);
+  batch.set(fb.doc(fs, 'users', user.uid, 'push', deviceId), JSON.parse(JSON.stringify(data)), { merge: true });
+  await batch.commit();
+}

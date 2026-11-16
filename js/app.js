@@ -88,6 +88,12 @@ async function main() {
   await startRouter();
   registerServiceWorker();
 
+  // Значок с числом карточек на иконке и состояние для push — при сворачивании приложения
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'hidden') return;
+    import('./reminders.js').then((m) => { m.updateBadge(); m.refreshPushState(); }).catch(() => {});
+  });
+
   // Облачная синхронизация — только если настроен Firebase (загружается лениво)
   import('./sync.js').then((m) => m.initSync()).catch((e) => console.warn('sync', e));
 }

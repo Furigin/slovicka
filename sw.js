@@ -4,7 +4,7 @@
 // «Je dostupná nová verzia — obnoviť», и только по нажатию присылает SKIP_WAITING.
 
 // <assets>
-const VERSION = '1a3c34a0ab7f';
+const VERSION = 'b5c6cfbf03e0';
 const ASSETS = [
   './',
   'css/base.css',
@@ -40,17 +40,24 @@ const ASSETS = [
   'js/distractors.js',
   'js/dom.js',
   'js/firebase-config.js',
+  'js/fx.js',
+  'js/gamify.js',
   'js/grammar-core.js',
   'js/grammar.js',
   'js/i18n.js',
   'js/icons.js',
+  'js/ics.js',
   'js/import-apkg.js',
   'js/modes/cards.js',
   'js/modes/common.js',
   'js/modes/grammar.js',
   'js/modes/test.js',
   'js/modes/typing.js',
+  'js/progress.js',
+  'js/push-config.js',
   'js/queue.js',
+  'js/reminder-rules.js',
+  'js/reminders.js',
   'js/router.js',
   'js/settings.js',
   'js/srs.js',
@@ -64,6 +71,7 @@ const ASSETS = [
   'js/views/grammar-editor.js',
   'js/views/import.js',
   'js/views/learn.js',
+  'js/views/motivation-panel.js',
   'js/views/note-form.js',
   'js/views/session.js',
   'js/views/settings.js',
@@ -127,3 +135,35 @@ self.addEventListener('fetch', (event) => {
     return res;
   })());
 });
+
+// ---------- Push-напоминания (присылает GitHub Actions, см. scripts/send-reminders.mjs) ----------
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch { data = { body: event.data?.text() }; }
+  const title = data.title || 'Slovíčka';
+  event.waitUntil((async () => {
+    await self.registration.showNotification(title, {
+      body: data.body || '',
+      icon: 'icons/icon-192.png',
+      badge: 'icons/icon-192.png',
+      tag: data.tag || 'slovicka-reminder',  // новое напоминание заменяет старое, а не копится
+      data: { url: data.url || './#/learn' },
+    });
+    if (typeof data.badge === 'number' && self.navigator.setAppBadge) {
+      try { await self.navigator.setAppBadge(data.badge); } catch { /* нет разрешения */ }
+    }
+  })());
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = new URL(event.notification.data?.url || './', self.registration.scope).href;
+  event.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of all) {
+      if (c.url.startsWith(self.registration.scope)) { await c.focus(); return c.navigate?.(url); }
+    }
+    return self.clients.openWindow(url);
+  })());
+});
+

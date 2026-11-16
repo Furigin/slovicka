@@ -117,6 +117,35 @@ const scenarios = {
     await go('#/learn'); await shot('53-light-learn');
     await go('#/dict'); await shot('54-light-dict');
   },
+  async fun() {
+    await go('#/learn'); await page.waitForTimeout(2600); await shot('60-learn-boot');
+    await page.waitForTimeout(1500); await shot('61-learn');
+    await page.evaluate(() => document.getElementById('view').scrollTo(0, 2000)); await shot('62-learn-bottom');
+    await go('#/session?mode=cards&deck=all');
+    for (let i = 0; i < 6; i++) {
+      const show = page.locator('text=Ukázať odpoveď');
+      if (!(await show.count())) break;
+      await show.click(); await page.waitForTimeout(150);
+      if (i === 1) await shot('63-card-typewriter');
+      await page.click('.grade.g3'); await page.waitForTimeout(120);
+      if (i === 2) await shot('64-xp-float');
+    }
+    await page.waitForTimeout(400); await shot('65-summary');
+    await page.waitForTimeout(1200); await shot('66-summary-later');
+  },
+  async fun2() {
+    await go('#/learn'); await page.waitForTimeout(700); await shot('70-boot');
+    await page.waitForTimeout(2500);
+    await page.evaluate(async () => {
+      const st = await import('./js/store.js');
+      for (const [sk, ru] of [['kniha', 'книга'], ['stôl', 'стол'], ['mesto', 'город'], ['voda', 'вода']]) await st.addNote({ sk, ru, deckId: 'deck-moje-chyby' });
+    });
+    await go('#/session?mode=test&deck=all'); await page.waitForTimeout(300);
+    await page.click('.option >> nth=0'); await page.waitForTimeout(250); await shot('71-test-pick');
+    await go('#/stats'); await page.waitForTimeout(900); await shot('72-stats-top');
+    await page.evaluate(() => document.getElementById('view').scrollTo(0, 99999)); await page.waitForTimeout(300); await shot('73-stats-ach');
+    await go('#/settings'); await page.evaluate(() => document.querySelectorAll('.panel')[1].scrollIntoView()); await page.waitForTimeout(300); await shot('74-settings-motivation');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');

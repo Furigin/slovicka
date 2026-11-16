@@ -8,6 +8,9 @@ import * as db from '../db.js';
 import { activityByDay, streak, distribution, forecast, todaySummary } from '../stats-calc.js';
 import { dayKey, addDays } from '../days.js';
 import { heatmap, bars, stackBar, hideTip } from '../charts.js';
+import { loadProgress, badgeEl } from '../progress.js';
+import { ACHIEVEMENTS, levelTitle } from '../gamify.js';
+import { countUp } from '../fx.js';
 
 const WEEKS = 26;
 
@@ -33,10 +36,14 @@ export async function render(el) {
   const today = todaySummary(act);
   const lang = s.lang;
 
+  const prog = await loadProgress();
+  const achPanel = achievementsPanel(prog, lang);
+  const lvlPanel = levelPanel(prog, lang);
+
   if (!reviews.length) {
     mount(el, screenTitle(t('tab.stats')),
       h('div', { class: 'panel empty' }, h('div', { class: 'face' }, ':)'), t('stats.noData')),
-      distributionPanel(cards));
+      lvlPanel, distributionPanel(cards), achPanel);
     return hideTip;
   }
 
@@ -79,6 +86,8 @@ export async function render(el) {
   mount(el,
     screenTitle(t('tab.stats')),
 
+    lvlPanel,
+
     h('section', { class: 'panel streak-panel' },
       h('div', { class: 'streak-num glow' }, String(st.current)),
       h('div', {},
@@ -118,8 +127,35 @@ export async function render(el) {
         labels: d30.map((k, i) => (i % 7 === 2 ? shortDate(k) : '')),
         tipText: (i) => `${shortDate(d30[i])}: ${diaVals[i]} / ${typedVals[i]}`,
       }),
-      h('p', { class: 'tiny faint', style: { margin: '6px 0 0' } }, t('stats.diacriticsSub'))));
+      h('p', { class: 'tiny faint', style: { margin: '6px 0 0' } }, t('stats.diacriticsSub'))),
+
+    achPanel);
+  countUp(el.querySelector('.streak-num'), st.current);
   return hideTip;
+}
+
+/** Уровень и опыт. */
+function levelPanel(prog, lang) {
+  const l = prog.level;
+  const bar = h('i', { style: { width: '0%' } });
+  setTimeout(() => { bar.style.width = `${Math.round(l.progress * 100)}%`; }, 80);
+  const xpNum = h('span');
+  countUp(xpNum, prog.xp);
+  return h('section', { class: 'panel' },
+    h('div', { class: 'row', style: { justifyContent: 'space-between', alignItems: 'baseline' } },
+      h('div', { class: 'hero-level' }, h('span', { class: 'accent glow' }, `Lv ${l.level}`), ` · ${levelTitle(l.level, lang)}`),
+      h('div', { class: 'small dim' }, xpNum, ' XP')),
+    h('div', { class: 'progress level-bar', style: { margin: '10px 0 6px' } }, bar),
+    h('div', { class: 'tiny dim' }, lang === 'ru' ? `До уровня ${l.level + 1}: ${l.need - l.into} XP` : `Do levelu ${l.level + 1}: ${l.need - l.into} XP`));
+}
+
+/** Значки: открытые сверху, закрытые — полупрозрачные «??». */
+function achievementsPanel(prog, lang) {
+  const open = new Set(prog.unlocked);
+  const sorted = [...ACHIEVEMENTS].sort((a, b) => Number(open.has(b.id)) - Number(open.has(a.id)));
+  return h('section', { class: 'panel' },
+    h('h3', {}, `${lang === 'ru' ? 'Достижения' : 'Odznaky'} · ${open.size} / ${ACHIEVEMENTS.length}`),
+    h('div', { class: 'ach-grid' }, sorted.map((a) => badgeEl(a, { locked: !open.has(a.id) }))));
 }
 
 function distributionPanel(cards) {

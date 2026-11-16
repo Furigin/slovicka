@@ -12,6 +12,11 @@ export const DEFAULTS = {
   grammarNewPerDay: 5,      // новых тем грамматики в день
   grammarFilter: 'both',    // грамматика: 'verbs' | 'nouns' | 'both'
   streakMinCards: 10,       // день в серии: ≥ 1 сессия или ≥ N карточек
+  dailyGoal: 20,            // дневная цель (карточек) — кольцо на главном экране
+  anim: true,               // анимации и эффекты
+  sound: true,              // звуки (уважают беззвучный режим iPhone)
+  reminderHour: 19,         // во сколько напоминать (push), локальное время
+  saverHour: 21,            // «спаси серию» — если до этого часа не учился (null — выкл.)
   learningSteps: [1, 10],   // шаги обучения, минуты
   relearningSteps: [10],    // шаги переобучения после «Znova», минуты
   graduatingInterval: 1,    // дней после последнего шага

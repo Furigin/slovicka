@@ -9,6 +9,11 @@ service cloud.firestore {
         && request.resource.data.keys().hasAll(['store', 'id', 'deleted', 'updatedAt'])
         && request.resource.size() < 200 * 1024;
     }
+    // подписки на push-напоминания (сервер читает их через Admin SDK в GitHub Actions)
+    match /users/{uid}/push/{deviceId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid
+        && (request.resource == null || request.resource.size() < 20 * 1024);
+    }
     // всё остальное закрыто
     match /{document=**} {
       allow read, write: if false;

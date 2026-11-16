@@ -5,6 +5,7 @@ import { settings, saveSettings } from '../settings.js';
 import { screenTitle, segmented, switchRow, numberField, toast } from '../ui.js';
 import { go, rerenderIf } from '../router.js';
 import * as db from '../db.js';
+import { motivationPanel } from './motivation-panel.js';
 
 function stepsField(label, value, onChange) {
   // «1 10» → [1, 10]; минуты через пробел или запятую
@@ -49,6 +50,8 @@ export async function render(el) {
     screenTitle(t('tab.settings')),
 
     h('section', { class: 'panel' }, h('h3', {}, t('set.account')), accountSlot),
+
+    motivationPanel(),
 
     h('section', { class: 'panel' },
       h('h3', {}, 'Vzhľad · Вид'),

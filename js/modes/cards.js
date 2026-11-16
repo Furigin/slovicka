@@ -2,6 +2,7 @@
 import { h, mount } from '../dom.js';
 import { t } from '../i18n.js';
 import { cardFace } from './common.js';
+import { typewriter, sfx } from '../fx.js';
 
 export function createMode(ctx) {
   let item = null;
@@ -26,6 +27,10 @@ export function createMode(ctx) {
     cleanupFace = face.cleanup;
     mount(ctx.stage, face.el);
     mount(ctx.actions, ctx.gradeRow(item.card));
+    sfx.reveal();
+    // ответ «печатается» по буквам, как в терминале
+    const ans = face.el.querySelector('.card-answer');
+    if (ans) typewriter(ans, item.back, { speed: 30 });
   }
 
   return {
