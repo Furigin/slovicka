@@ -25,6 +25,10 @@ export const SYNCED_STORES = ['decks', 'notes', 'cards', 'reviews', 'sessions', 
 export const SYNCED_META_KEYS = ['settings'];
 
 let dbPromise = null;
+const changeListeners = new Set();
+/** Подписка на локальные изменения синхронизируемых данных (для автосинхронизации). */
+export function onLocalChange(fn) { changeListeners.add(fn); return () => changeListeners.delete(fn); }
+const notify = (store) => changeListeners.forEach((fn) => { try { fn(store); } catch (e) { console.error(e); } });
 
 export function openDB() {
   if (!dbPromise) {
@@ -95,6 +99,7 @@ export async function put(store, recs, opts = {}) {
     }
   }
   await tx.done;
+  if (!opts.local && SYNCED_STORES.includes(store)) notify(store);
 }
 
 /** Удалить записи по id (с «надгробием» в outbox, чтобы удалилось и в облаке). */
@@ -111,6 +116,7 @@ export async function del(store, ids, opts = {}) {
     }
   }
   await tx.done;
+  if (!opts.local && SYNCED_STORES.includes(store)) notify(store);
 }
 
 /** Применить изменения, пришедшие из облака (без записи в outbox). Last-writer-wins по updatedAt. */

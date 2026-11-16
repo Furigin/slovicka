@@ -136,6 +136,14 @@ export async function studyCards(deckId = 'all') {
     && dirs[c.deckId] !== undefined);
 }
 
+// ---------- Картинки ----------
+/** URL картинки слова из IndexedDB (картинки из .apkg). Не забудь URL.revokeObjectURL. */
+export async function mediaUrl(id) {
+  if (!id) return null;
+  const rec = await db.get('media', id);
+  return rec?.blob ? URL.createObjectURL(rec.blob) : null;
+}
+
 // ---------- Журнал ----------
 export async function logReview(entry) {
   const rec = { id: uid('r-'), ts: Date.now(), kind: 'vocab', ...entry };

@@ -4,7 +4,7 @@
 // «Je dostupná nová verzia — obnoviť», и только по нажатию присылает SKIP_WAITING.
 
 // <assets>
-const VERSION = '9f84c5918170';
+const VERSION = 'bdaa15c822de';
 const ASSETS = [
   './',
   'css/base.css',
@@ -29,17 +29,28 @@ const ASSETS = [
   'icons/icon-maskable-512.png',
   'index.html',
   'js/app.js',
+  'js/backup-format.js',
+  'js/backup.js',
   'js/compare.js',
   'js/days.js',
   'js/db.js',
+  'js/diacritics.js',
+  'js/distractors.js',
   'js/dom.js',
   'js/firebase-config.js',
+  'js/grammar.js',
   'js/i18n.js',
   'js/icons.js',
+  'js/modes/cards.js',
+  'js/modes/common.js',
+  'js/modes/grammar.js',
+  'js/modes/test.js',
+  'js/modes/typing.js',
   'js/queue.js',
   'js/router.js',
   'js/settings.js',
   'js/srs.js',
+  'js/stats-calc.js',
   'js/store.js',
   'js/sync.js',
   'js/textutil.js',
@@ -49,6 +60,7 @@ const ASSETS = [
   'js/views/grammar-editor.js',
   'js/views/import.js',
   'js/views/learn.js',
+  'js/views/note-form.js',
   'js/views/session.js',
   'js/views/settings.js',
   'js/views/stats.js',

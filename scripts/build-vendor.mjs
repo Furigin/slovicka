@@ -25,7 +25,7 @@ export { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
   onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 export { getFirestore, collection, doc, getDocs, query, where, orderBy, limit,
-  writeBatch, serverTimestamp, Timestamp } from 'firebase/firestore/lite';
+  writeBatch, serverTimestamp, Timestamp, startAfter } from 'firebase/firestore/lite';
 `);
 await build({
   entryPoints: ['scripts/.firebase-entry.js'],

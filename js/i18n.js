@@ -30,7 +30,10 @@ const SK = {
   'mode.test.hint': '4 možnosti — rýchlo v MHD',
   'mode.grammar.hint': 'tvary slovies a pády',
   'backup.reminder': 'Posledná záloha: {when}. Urob si zálohu — iOS môže vymazať dáta.',
-  'backup.never': 'zatiaľ žiadna',
+  'backup.never': 'zatiaľ žiadna', 'backup.last': 'Posledná záloha: {when}',
+  'backup.merge': 'Zlúčiť so súčasnými dátami', 'backup.replace': 'Nahradiť všetko',
+  'backup.importQ': 'Záloha z {date}: {n} slov. Ako ju obnoviť?', 'backup.invalid': 'Toto nie je záloha Slovíčok.',
+  'backup.restored': 'Obnovené :) Záznamov: {n}', 'backup.saved': 'Záloha uložená :)',
   'backup.now': 'Zálohovať',
 
   // сессия
@@ -151,7 +154,10 @@ const RU = {
   'mode.test.hint': '4 варианта — быстро в транспорте',
   'mode.grammar.hint': 'спряжение глаголов и падежи',
   'backup.reminder': 'Последний бэкап: {when}. Сделай бэкап — iOS может стереть данные.',
-  'backup.never': 'ещё не было',
+  'backup.never': 'ещё не было', 'backup.last': 'Последний бэкап: {when}',
+  'backup.merge': 'Объединить с текущими данными', 'backup.replace': 'Заменить всё',
+  'backup.importQ': 'Бэкап от {date}: слов {n}. Как восстановить?', 'backup.invalid': 'Это не бэкап Slovíčka.',
+  'backup.restored': 'Восстановлено :) Записей: {n}', 'backup.saved': 'Бэкап сохранён :)',
   'backup.now': 'Сделать бэкап',
 
   'session.show': 'Ukázať odpoveď', 'session.check': 'Проверить',

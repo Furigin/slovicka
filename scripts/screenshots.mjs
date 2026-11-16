@@ -31,6 +31,29 @@ const go = async (hash) => { await page.goto(base + hash); await page.waitForTim
 
 // Сценарии. Каждый — функция; можно запускать один: npm run shots -- webkit learn
 const scenarios = {
+  async session() {
+    await go('#/learn'); await shot('10-learn');
+    // добавить слово через «+»
+    await page.click('.fab'); await page.waitForTimeout(300);
+    await page.fill('input[name=sk]', 'kniha');
+    await page.fill('input[name=ru]', 'книга');
+    await shot('11-add-word');
+    await page.press('input[name=example]', 'Enter').catch(() => {});
+    await page.locator('input[name=ru]').press('Enter');
+    await page.locator('input[name=example]').press('Enter');
+    await page.waitForTimeout(400); await shot('12-added');
+    await page.keyboard.press('Escape');
+    // Kartičky
+    await go('#/session?mode=cards&deck=all'); await shot('13-card-front');
+    await page.click('text=Ukázať odpoveď'); await shot('14-card-back');
+    await page.click('.grade.g3'); await page.waitForTimeout(300);
+    // Písanie
+    await go('#/session?mode=typing&deck=all');
+    await page.fill('.answer-input', 'patnast'); await page.press('.answer-input', 'Enter');
+    await shot('15-typing-result');
+    // Test
+    await go('#/session?mode=test&deck=all'); await shot('16-test');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');

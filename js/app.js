@@ -7,6 +7,7 @@ import { ICONS } from './icons.js';
 import { t } from './i18n.js';
 import { startRouter, onRoute, render, currentRoute, routeTab } from './router.js';
 import { toast } from './ui.js';
+import { openNoteForm } from './views/note-form.js'; // статично: фокус поля в том же тапе (iOS)
 
 const TABS = [
   { name: 'learn', icon: 'learn', label: 'tab.learn' },
@@ -29,7 +30,7 @@ function renderFab(routeName) {
   if (!['learn', 'dict'].includes(routeName)) return;
   const fab = h('button', {
     class: 'fab', 'aria-label': t('note.add'), html: ICONS.plus,
-    onclick: async () => (await import('./views/note-form.js')).openNoteForm(),
+    onclick: () => openNoteForm({ onSaved: () => { if (currentRoute() !== 'session') render(); } }),
   });
   document.getElementById('app').append(fab);
 }
@@ -77,6 +78,9 @@ async function main() {
   onSettings((s, patch) => {
     if ('lang' in patch || Object.keys(patch).length === 0) { renderTabbar(); render(); }
   });
+
+  // Пришли данные с другого устройства — перерисовать экран (кроме идущей сессии)
+  window.addEventListener('slovicka:synced', () => { if (currentRoute() !== 'session') render(); });
 
   await startRouter();
   registerServiceWorker();
