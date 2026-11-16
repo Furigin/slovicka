@@ -93,6 +93,19 @@ const scenarios = {
     await page.evaluate(() => document.getElementById('view').scrollTo(0, 2000)); await shot('31-stats-bottom');
     await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; }); await shot('32-stats-light');
   },
+  async grammar() {
+    await go('#/learn');
+    await page.click('.mode-btn:has-text("Časovanie")'); await page.waitForTimeout(500);
+    await shot('40-learn-grammar');
+    await go('#/session?mode=grammar&deck=all'); await shot('41-grammar-q');
+    await page.fill('.answer-input', 'xyz'); await page.press('.answer-input', 'Enter');
+    await shot('42-grammar-wrong');
+    await go('#/grammar'); await shot('43-grammar-editor');
+    await page.click('.list-row >> nth=2'); await page.waitForTimeout(300); await shot('44-grammar-edit');
+    await page.keyboard.press('Escape');
+    await page.click('[role=group] button:nth-child(2)'); await page.waitForTimeout(200);
+    await page.click('.list-row >> nth=4'); await page.waitForTimeout(300); await shot('45-grammar-noun-edit');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');

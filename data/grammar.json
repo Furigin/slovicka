@@ -1,0 +1,1514 @@
+{
+ "_note": "Сгенерировано автоматически — все формы помечены verified:false (neoverené). Проверь с преподавателем; править можно в приложении (Nastavenia → Tabuľky tvarov).",
+ "persons": [
+  "ja",
+  "ty",
+  "on/ona",
+  "my",
+  "vy",
+  "oni"
+ ],
+ "cases": [
+  "nom",
+  "gen",
+  "dat",
+  "acc",
+  "loc",
+  "ins"
+ ],
+ "verbs": [
+  {
+   "id": "v-byt",
+   "inf": "byť",
+   "ru": "быть",
+   "present": [
+    "som",
+    "si",
+    "je",
+    "sme",
+    "ste",
+    "sú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-mat",
+   "inf": "mať",
+   "ru": "иметь",
+   "present": [
+    "mám",
+    "máš",
+    "má",
+    "máme",
+    "máte",
+    "majú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-robit",
+   "inf": "robiť",
+   "ru": "делать",
+   "present": [
+    "robím",
+    "robíš",
+    "robí",
+    "robíme",
+    "robíte",
+    "robia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-hovorit",
+   "inf": "hovoriť",
+   "ru": "говорить",
+   "present": [
+    "hovorím",
+    "hovoríš",
+    "hovorí",
+    "hovoríme",
+    "hovoríte",
+    "hovoria"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-byvat",
+   "inf": "bývať",
+   "ru": "жить, проживать",
+   "present": [
+    "bývam",
+    "bývaš",
+    "býva",
+    "bývame",
+    "bývate",
+    "bývajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-studovat",
+   "inf": "študovať",
+   "ru": "учиться (в вузе), изучать",
+   "present": [
+    "študujem",
+    "študuješ",
+    "študuje",
+    "študujeme",
+    "študujete",
+    "študujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-ist",
+   "inf": "ísť",
+   "ru": "идти",
+   "present": [
+    "idem",
+    "ideš",
+    "ide",
+    "ideme",
+    "idete",
+    "idú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-chciet",
+   "inf": "chcieť",
+   "ru": "хотеть",
+   "present": [
+    "chcem",
+    "chceš",
+    "chce",
+    "chceme",
+    "chcete",
+    "chcú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-moct",
+   "inf": "môcť",
+   "ru": "мочь",
+   "present": [
+    "môžem",
+    "môžeš",
+    "môže",
+    "môžeme",
+    "môžete",
+    "môžu"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-vediet",
+   "inf": "vedieť",
+   "ru": "знать, уметь",
+   "present": [
+    "viem",
+    "vieš",
+    "vie",
+    "vieme",
+    "viete",
+    "vedia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pracovat",
+   "inf": "pracovať",
+   "ru": "работать",
+   "present": [
+    "pracujem",
+    "pracuješ",
+    "pracuje",
+    "pracujeme",
+    "pracujete",
+    "pracujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-citat",
+   "inf": "čítať",
+   "ru": "читать",
+   "present": [
+    "čítam",
+    "čítaš",
+    "číta",
+    "čítame",
+    "čítate",
+    "čítajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pisat",
+   "inf": "písať",
+   "ru": "писать",
+   "present": [
+    "píšem",
+    "píšeš",
+    "píše",
+    "píšeme",
+    "píšete",
+    "píšu"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-rozumiet",
+   "inf": "rozumieť",
+   "ru": "понимать",
+   "present": [
+    "rozumiem",
+    "rozumieš",
+    "rozumie",
+    "rozumieme",
+    "rozumiete",
+    "rozumejú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-vidiet",
+   "inf": "vidieť",
+   "ru": "видеть",
+   "present": [
+    "vidím",
+    "vidíš",
+    "vidí",
+    "vidíme",
+    "vidíte",
+    "vidia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pocut",
+   "inf": "počuť",
+   "ru": "слышать",
+   "present": [
+    "počujem",
+    "počuješ",
+    "počuje",
+    "počujeme",
+    "počujete",
+    "počujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-jest",
+   "inf": "jesť",
+   "ru": "есть (кушать)",
+   "present": [
+    "jem",
+    "ješ",
+    "je",
+    "jeme",
+    "jete",
+    "jedia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pit",
+   "inf": "piť",
+   "ru": "пить",
+   "present": [
+    "pijem",
+    "piješ",
+    "pije",
+    "pijeme",
+    "pijete",
+    "pijú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-spat",
+   "inf": "spať",
+   "ru": "спать",
+   "present": [
+    "spím",
+    "spíš",
+    "spí",
+    "spíme",
+    "spíte",
+    "spia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-ucit-sa",
+   "inf": "učiť sa",
+   "ru": "учиться",
+   "present": [
+    "učím sa",
+    "učíš sa",
+    "učí sa",
+    "učíme sa",
+    "učíte sa",
+    "učia sa"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-volat-sa",
+   "inf": "volať sa",
+   "ru": "называться, зваться",
+   "present": [
+    "volám sa",
+    "voláš sa",
+    "volá sa",
+    "voláme sa",
+    "voláte sa",
+    "volajú sa"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-chodit",
+   "inf": "chodiť",
+   "ru": "ходить",
+   "present": [
+    "chodím",
+    "chodíš",
+    "chodí",
+    "chodíme",
+    "chodíte",
+    "chodia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-cestovat",
+   "inf": "cestovať",
+   "ru": "путешествовать, ездить",
+   "present": [
+    "cestujem",
+    "cestuješ",
+    "cestuje",
+    "cestujeme",
+    "cestujete",
+    "cestujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-kupovat",
+   "inf": "kupovať",
+   "ru": "покупать",
+   "present": [
+    "kupujem",
+    "kupuješ",
+    "kupuje",
+    "kupujeme",
+    "kupujete",
+    "kupujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-platit",
+   "inf": "platiť",
+   "ru": "платить",
+   "present": [
+    "platím",
+    "platíš",
+    "platí",
+    "platíme",
+    "platíte",
+    "platia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-varit",
+   "inf": "variť",
+   "ru": "варить, готовить",
+   "present": [
+    "varím",
+    "varíš",
+    "varí",
+    "varíme",
+    "varíte",
+    "varia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pytat-sa",
+   "inf": "pýtať sa",
+   "ru": "спрашивать",
+   "present": [
+    "pýtam sa",
+    "pýtaš sa",
+    "pýta sa",
+    "pýtame sa",
+    "pýtate sa",
+    "pýtajú sa"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-odpovedat",
+   "inf": "odpovedať",
+   "ru": "отвечать",
+   "present": [
+    "odpovedám",
+    "odpovedáš",
+    "odpovedá",
+    "odpovedáme",
+    "odpovedáte",
+    "odpovedajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-potrebovat",
+   "inf": "potrebovať",
+   "ru": "нуждаться",
+   "present": [
+    "potrebujem",
+    "potrebuješ",
+    "potrebuje",
+    "potrebujeme",
+    "potrebujete",
+    "potrebujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-musiet",
+   "inf": "musieť",
+   "ru": "быть должным",
+   "present": [
+    "musím",
+    "musíš",
+    "musí",
+    "musíme",
+    "musíte",
+    "musia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-poznat",
+   "inf": "poznať",
+   "ru": "знать (быть знакомым)",
+   "present": [
+    "poznám",
+    "poznáš",
+    "pozná",
+    "poznáme",
+    "poznáte",
+    "poznajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-brat",
+   "inf": "brať",
+   "ru": "брать",
+   "present": [
+    "beriem",
+    "berieš",
+    "berie",
+    "berieme",
+    "beriete",
+    "berú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-stat",
+   "inf": "stáť",
+   "ru": "стоять; стоить",
+   "present": [
+    "stojím",
+    "stojíš",
+    "stojí",
+    "stojíme",
+    "stojíte",
+    "stoja"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-sediet",
+   "inf": "sedieť",
+   "ru": "сидеть",
+   "present": [
+    "sedím",
+    "sedíš",
+    "sedí",
+    "sedíme",
+    "sedíte",
+    "sedia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-hrat",
+   "inf": "hrať",
+   "ru": "играть",
+   "present": [
+    "hrám",
+    "hráš",
+    "hrá",
+    "hráme",
+    "hráte",
+    "hrajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pocuvat",
+   "inf": "počúvať",
+   "ru": "слушать",
+   "present": [
+    "počúvam",
+    "počúvaš",
+    "počúva",
+    "počúvame",
+    "počúvate",
+    "počúvajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-pozerat",
+   "inf": "pozerať",
+   "ru": "смотреть",
+   "present": [
+    "pozerám",
+    "pozeráš",
+    "pozerá",
+    "pozeráme",
+    "pozeráte",
+    "pozerajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-mysliet",
+   "inf": "myslieť",
+   "ru": "думать",
+   "present": [
+    "myslím",
+    "myslíš",
+    "myslí",
+    "myslíme",
+    "myslíte",
+    "myslia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-zacinat",
+   "inf": "začínať",
+   "ru": "начинать",
+   "present": [
+    "začínam",
+    "začínaš",
+    "začína",
+    "začíname",
+    "začínate",
+    "začínajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-koncit",
+   "inf": "končiť",
+   "ru": "заканчивать",
+   "present": [
+    "končím",
+    "končíš",
+    "končí",
+    "končíme",
+    "končíte",
+    "končia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-bezat",
+   "inf": "bežať",
+   "ru": "бежать",
+   "present": [
+    "bežím",
+    "bežíš",
+    "beží",
+    "bežíme",
+    "bežíte",
+    "bežia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-lezat",
+   "inf": "ležať",
+   "ru": "лежать",
+   "present": [
+    "ležím",
+    "ležíš",
+    "leží",
+    "ležíme",
+    "ležíte",
+    "ležia"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-spievat",
+   "inf": "spievať",
+   "ru": "петь",
+   "present": [
+    "spievam",
+    "spievaš",
+    "spieva",
+    "spievame",
+    "spievate",
+    "spievajú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-tancovat",
+   "inf": "tancovať",
+   "ru": "танцевать",
+   "present": [
+    "tancujem",
+    "tancuješ",
+    "tancuje",
+    "tancujeme",
+    "tancujete",
+    "tancujú"
+   ],
+   "verified": false
+  },
+  {
+   "id": "v-nakupovat",
+   "inf": "nakupovať",
+   "ru": "делать покупки",
+   "present": [
+    "nakupujem",
+    "nakupuješ",
+    "nakupuje",
+    "nakupujeme",
+    "nakupujete",
+    "nakupujú"
+   ],
+   "verified": false
+  }
+ ],
+ "nouns": [
+  {
+   "id": "n-chlap",
+   "lemma": "chlap",
+   "ru": "мужчина, парень",
+   "gender": "m",
+   "pattern": "chlap",
+   "model": true,
+   "cat": "person",
+   "sg": [
+    "chlap",
+    "chlapa",
+    "chlapovi",
+    "chlapa",
+    "chlapovi",
+    "chlapom"
+   ],
+   "pl": [
+    "chlapi",
+    "chlapov",
+    "chlapom",
+    "chlapov",
+    "chlapoch",
+    "chlapmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-hrdina",
+   "lemma": "hrdina",
+   "ru": "герой",
+   "gender": "m",
+   "pattern": "hrdina",
+   "model": true,
+   "cat": "person",
+   "sg": [
+    "hrdina",
+    "hrdinu",
+    "hrdinovi",
+    "hrdinu",
+    "hrdinovi",
+    "hrdinom"
+   ],
+   "pl": [
+    "hrdinovia",
+    "hrdinov",
+    "hrdinom",
+    "hrdinov",
+    "hrdinoch",
+    "hrdinami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-dub",
+   "lemma": "dub",
+   "ru": "дуб",
+   "gender": "m",
+   "pattern": "dub",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "dub",
+    "duba",
+    "dubu",
+    "dub",
+    "dube",
+    "dubom"
+   ],
+   "pl": [
+    "duby",
+    "dubov",
+    "dubom",
+    "duby",
+    "duboch",
+    "dubmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-stroj",
+   "lemma": "stroj",
+   "ru": "машина, станок",
+   "gender": "m",
+   "pattern": "stroj",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "stroj",
+    "stroja",
+    "stroju",
+    "stroj",
+    "stroji",
+    "strojom"
+   ],
+   "pl": [
+    "stroje",
+    "strojov",
+    "strojom",
+    "stroje",
+    "strojoch",
+    "strojmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-zena",
+   "lemma": "žena",
+   "ru": "женщина, жена",
+   "gender": "f",
+   "pattern": "žena",
+   "model": true,
+   "cat": "person",
+   "sg": [
+    "žena",
+    "ženy",
+    "žene",
+    "ženu",
+    "žene",
+    "ženou"
+   ],
+   "pl": [
+    "ženy",
+    "žien",
+    "ženám",
+    "ženy",
+    "ženách",
+    "ženami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-ulica",
+   "lemma": "ulica",
+   "ru": "улица",
+   "gender": "f",
+   "pattern": "ulica",
+   "model": true,
+   "cat": "place",
+   "sg": [
+    "ulica",
+    "ulice",
+    "ulici",
+    "ulicu",
+    "ulici",
+    "ulicou"
+   ],
+   "pl": [
+    "ulice",
+    "ulíc",
+    "uliciam",
+    "ulice",
+    "uliciach",
+    "ulicami"
+   ],
+   "verified": false,
+   "locPrep": "na"
+  },
+  {
+   "id": "n-dlan",
+   "lemma": "dlaň",
+   "ru": "ладонь",
+   "gender": "f",
+   "pattern": "dlaň",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "dlaň",
+    "dlane",
+    "dlani",
+    "dlaň",
+    "dlani",
+    "dlaňou"
+   ],
+   "pl": [
+    "dlane",
+    "dlaní",
+    "dlaniam",
+    "dlane",
+    "dlaniach",
+    "dlaňami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-kost",
+   "lemma": "kosť",
+   "ru": "кость",
+   "gender": "f",
+   "pattern": "kosť",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "kosť",
+    "kosti",
+    "kosti",
+    "kosť",
+    "kosti",
+    "kosťou"
+   ],
+   "pl": [
+    "kosti",
+    "kostí",
+    "kostiam",
+    "kosti",
+    "kostiach",
+    "kosťami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-mesto",
+   "lemma": "mesto",
+   "ru": "город",
+   "gender": "n",
+   "pattern": "mesto",
+   "model": true,
+   "cat": "place",
+   "sg": [
+    "mesto",
+    "mesta",
+    "mestu",
+    "mesto",
+    "meste",
+    "mestom"
+   ],
+   "pl": [
+    "mestá",
+    "miest",
+    "mestám",
+    "mestá",
+    "mestách",
+    "mestami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-srdce",
+   "lemma": "srdce",
+   "ru": "сердце",
+   "gender": "n",
+   "pattern": "srdce",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "srdce",
+    "srdca",
+    "srdcu",
+    "srdce",
+    "srdci",
+    "srdcom"
+   ],
+   "pl": [
+    "srdcia",
+    "sŕdc",
+    "srdciam",
+    "srdcia",
+    "srdciach",
+    "srdcami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-vysvedcenie",
+   "lemma": "vysvedčenie",
+   "ru": "аттестат, свидетельство",
+   "gender": "n",
+   "pattern": "vysvedčenie",
+   "model": true,
+   "cat": "thing",
+   "sg": [
+    "vysvedčenie",
+    "vysvedčenia",
+    "vysvedčeniu",
+    "vysvedčenie",
+    "vysvedčení",
+    "vysvedčením"
+   ],
+   "pl": [
+    "vysvedčenia",
+    "vysvedčení",
+    "vysvedčeniam",
+    "vysvedčenia",
+    "vysvedčeniach",
+    "vysvedčeniami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-dievca",
+   "lemma": "dievča",
+   "ru": "девочка, девушка",
+   "gender": "n",
+   "pattern": "dievča",
+   "model": true,
+   "cat": "person",
+   "sg": [
+    "dievča",
+    "dievčaťa",
+    "dievčaťu",
+    "dievča",
+    "dievčati",
+    "dievčaťom"
+   ],
+   "pl": [
+    "dievčatá",
+    "dievčat",
+    "dievčatám",
+    "dievčatá",
+    "dievčatách",
+    "dievčatami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-student",
+   "lemma": "študent",
+   "ru": "студент",
+   "gender": "m",
+   "pattern": "chlap",
+   "model": false,
+   "cat": "person",
+   "sg": [
+    "študent",
+    "študenta",
+    "študentovi",
+    "študenta",
+    "študentovi",
+    "študentom"
+   ],
+   "pl": [
+    "študenti",
+    "študentov",
+    "študentom",
+    "študentov",
+    "študentoch",
+    "študentmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-brat",
+   "lemma": "brat",
+   "ru": "брат",
+   "gender": "m",
+   "pattern": "chlap",
+   "model": false,
+   "cat": "person",
+   "sg": [
+    "brat",
+    "brata",
+    "bratovi",
+    "brata",
+    "bratovi",
+    "bratom"
+   ],
+   "pl": [
+    "bratia",
+    "bratov",
+    "bratom",
+    "bratov",
+    "bratoch",
+    "bratmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-ucitel",
+   "lemma": "učiteľ",
+   "ru": "учитель",
+   "gender": "m",
+   "pattern": "chlap",
+   "model": false,
+   "cat": "person",
+   "sg": [
+    "učiteľ",
+    "učiteľa",
+    "učiteľovi",
+    "učiteľa",
+    "učiteľovi",
+    "učiteľom"
+   ],
+   "pl": [
+    "učitelia",
+    "učiteľov",
+    "učiteľom",
+    "učiteľov",
+    "učiteľoch",
+    "učiteľmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-kolega",
+   "lemma": "kolega",
+   "ru": "коллега",
+   "gender": "m",
+   "pattern": "hrdina",
+   "model": false,
+   "cat": "person",
+   "sg": [
+    "kolega",
+    "kolegu",
+    "kolegovi",
+    "kolegu",
+    "kolegovi",
+    "kolegom"
+   ],
+   "pl": [
+    "kolegovia",
+    "kolegov",
+    "kolegom",
+    "kolegov",
+    "kolegoch",
+    "kolegami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-obchod",
+   "lemma": "obchod",
+   "ru": "магазин",
+   "gender": "m",
+   "pattern": "dub",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "obchod",
+    "obchodu",
+    "obchodu",
+    "obchod",
+    "obchode",
+    "obchodom"
+   ],
+   "pl": [
+    "obchody",
+    "obchodov",
+    "obchodom",
+    "obchody",
+    "obchodoch",
+    "obchodmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-vlak",
+   "lemma": "vlak",
+   "ru": "поезд",
+   "gender": "m",
+   "pattern": "dub",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "vlak",
+    "vlaku",
+    "vlaku",
+    "vlak",
+    "vlaku",
+    "vlakom"
+   ],
+   "pl": [
+    "vlaky",
+    "vlakov",
+    "vlakom",
+    "vlaky",
+    "vlakoch",
+    "vlakmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-stol",
+   "lemma": "stôl",
+   "ru": "стол",
+   "gender": "m",
+   "pattern": "dub",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "stôl",
+    "stola",
+    "stolu",
+    "stôl",
+    "stole",
+    "stolom"
+   ],
+   "pl": [
+    "stoly",
+    "stolov",
+    "stolom",
+    "stoly",
+    "stoloch",
+    "stolmi"
+   ],
+   "verified": false,
+   "locPrep": "na"
+  },
+  {
+   "id": "n-caj",
+   "lemma": "čaj",
+   "ru": "чай",
+   "gender": "m",
+   "pattern": "stroj",
+   "model": false,
+   "cat": "thing",
+   "sg": [
+    "čaj",
+    "čaju",
+    "čaju",
+    "čaj",
+    "čaji",
+    "čajom"
+   ],
+   "pl": [
+    "čaje",
+    "čajov",
+    "čajom",
+    "čaje",
+    "čajoch",
+    "čajmi"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-izba",
+   "lemma": "izba",
+   "ru": "комната",
+   "gender": "f",
+   "pattern": "žena",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "izba",
+    "izby",
+    "izbe",
+    "izbu",
+    "izbe",
+    "izbou"
+   ],
+   "pl": [
+    "izby",
+    "izieb",
+    "izbám",
+    "izby",
+    "izbách",
+    "izbami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-skola",
+   "lemma": "škola",
+   "ru": "школа",
+   "gender": "f",
+   "pattern": "žena",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "škola",
+    "školy",
+    "škole",
+    "školu",
+    "škole",
+    "školou"
+   ],
+   "pl": [
+    "školy",
+    "škôl",
+    "školám",
+    "školy",
+    "školách",
+    "školami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-bratislava",
+   "lemma": "Bratislava",
+   "ru": "Братислава",
+   "gender": "f",
+   "pattern": "žena",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "Bratislava",
+    "Bratislavy",
+    "Bratislave",
+    "Bratislavu",
+    "Bratislave",
+    "Bratislavou"
+   ],
+   "pl": null,
+   "verified": false
+  },
+  {
+   "id": "n-praha",
+   "lemma": "Praha",
+   "ru": "Прага",
+   "gender": "f",
+   "pattern": "žena",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "Praha",
+    "Prahy",
+    "Prahe",
+    "Prahu",
+    "Prahe",
+    "Prahou"
+   ],
+   "pl": null,
+   "verified": false
+  },
+  {
+   "id": "n-kancelaria",
+   "lemma": "kancelária",
+   "ru": "офис, кабинет",
+   "gender": "f",
+   "pattern": "ulica",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "kancelária",
+    "kancelárie",
+    "kancelárii",
+    "kanceláriu",
+    "kancelárii",
+    "kanceláriou"
+   ],
+   "pl": [
+    "kancelárie",
+    "kancelárií",
+    "kanceláriám",
+    "kancelárie",
+    "kanceláriách",
+    "kanceláriami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-kaviaren",
+   "lemma": "kaviareň",
+   "ru": "кафе",
+   "gender": "f",
+   "pattern": "dlaň",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "kaviareň",
+    "kaviarne",
+    "kaviarni",
+    "kaviareň",
+    "kaviarni",
+    "kaviarňou"
+   ],
+   "pl": [
+    "kaviarne",
+    "kaviarní",
+    "kaviarňam",
+    "kaviarne",
+    "kaviarňach",
+    "kaviarňami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-viden",
+   "lemma": "Viedeň",
+   "ru": "Вена",
+   "gender": "f",
+   "pattern": "dlaň",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "Viedeň",
+    "Viedne",
+    "Viedni",
+    "Viedeň",
+    "Viedni",
+    "Viedňou"
+   ],
+   "pl": null,
+   "verified": false
+  },
+  {
+   "id": "n-vec",
+   "lemma": "vec",
+   "ru": "вещь",
+   "gender": "f",
+   "pattern": "kosť",
+   "model": false,
+   "cat": "thing",
+   "sg": [
+    "vec",
+    "veci",
+    "veci",
+    "vec",
+    "veci",
+    "vecou"
+   ],
+   "pl": [
+    "veci",
+    "vecí",
+    "veciam",
+    "veci",
+    "veciach",
+    "vecami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-auto",
+   "lemma": "auto",
+   "ru": "автомобиль",
+   "gender": "n",
+   "pattern": "mesto",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "auto",
+    "auta",
+    "autu",
+    "auto",
+    "aute",
+    "autom"
+   ],
+   "pl": [
+    "autá",
+    "áut",
+    "autám",
+    "autá",
+    "autách",
+    "autami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-kino",
+   "lemma": "kino",
+   "ru": "кинотеатр",
+   "gender": "n",
+   "pattern": "mesto",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "kino",
+    "kina",
+    "kinu",
+    "kino",
+    "kine",
+    "kinom"
+   ],
+   "pl": [
+    "kiná",
+    "kín",
+    "kinám",
+    "kiná",
+    "kinách",
+    "kinami"
+   ],
+   "verified": false
+  },
+  {
+   "id": "n-slovensko",
+   "lemma": "Slovensko",
+   "ru": "Словакия",
+   "gender": "n",
+   "pattern": "mesto",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "Slovensko",
+    "Slovenska",
+    "Slovensku",
+    "Slovensko",
+    "Slovensku",
+    "Slovenskom"
+   ],
+   "pl": null,
+   "verified": false,
+   "locPrep": "na"
+  },
+  {
+   "id": "n-more",
+   "lemma": "more",
+   "ru": "море",
+   "gender": "n",
+   "pattern": "srdce",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "more",
+    "mora",
+    "moru",
+    "more",
+    "mori",
+    "morom"
+   ],
+   "pl": [
+    "moria",
+    "morí",
+    "moriam",
+    "moria",
+    "moriach",
+    "moriami"
+   ],
+   "verified": false,
+   "locPrep": "pri"
+  },
+  {
+   "id": "n-namestie",
+   "lemma": "námestie",
+   "ru": "площадь",
+   "gender": "n",
+   "pattern": "vysvedčenie",
+   "model": false,
+   "cat": "place",
+   "sg": [
+    "námestie",
+    "námestia",
+    "námestiu",
+    "námestie",
+    "námestí",
+    "námestím"
+   ],
+   "pl": [
+    "námestia",
+    "námestí",
+    "námestiam",
+    "námestia",
+    "námestiach",
+    "námestiami"
+   ],
+   "verified": false,
+   "locPrep": "na"
+  },
+  {
+   "id": "n-zviera",
+   "lemma": "zviera",
+   "ru": "животное",
+   "gender": "n",
+   "pattern": "dievča",
+   "model": false,
+   "cat": "thing",
+   "sg": [
+    "zviera",
+    "zvieraťa",
+    "zvieraťu",
+    "zviera",
+    "zvierati",
+    "zvieraťom"
+   ],
+   "pl": [
+    "zvieratá",
+    "zvierat",
+    "zvieratám",
+    "zvieratá",
+    "zvieratách",
+    "zvieratami"
+   ],
+   "verified": false
+  }
+ ]
+}

@@ -284,3 +284,24 @@ body.has-diacritics .session-actions { padding-bottom: 64px; } /* место п�
   box-shadow: var(--shadow);
   white-space: nowrap;
 }
+
+/* ---------- Časovanie a pády ---------- */
+.grammar-face .card-word { font-size: clamp(26px, 7.5vw, 34px); }
+.gap {
+  display: inline-block;
+  min-width: 3.2em;
+  border-bottom: 2px dashed var(--accent);
+  color: var(--text-faint);
+  text-align: center;
+}
+.gap.filled { color: var(--accent); border-bottom-style: solid; }
+.grammar-lemma { margin-top: 8px; font-size: 18px; color: var(--text-dim); }
+.forms-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 10px;
+  align-items: center;
+}
+.forms-table.three { grid-template-columns: auto 1fr 1fr; }
+.forms-label { font-size: 12px; color: var(--text-dim); }
+.forms-table .input { min-height: 42px; padding: 8px 10px; }

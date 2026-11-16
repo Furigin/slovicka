@@ -10,6 +10,7 @@ export const DEFAULTS = {
   newPerDay: 10,            // новых карточек в день
   reviewsPerDay: 200,       // повторений в день
   grammarNewPerDay: 5,      // новых тем грамматики в день
+  grammarFilter: 'both',    // грамматика: 'verbs' | 'nouns' | 'both'
   streakMinCards: 10,       // день в серии: ≥ 1 сессия или ≥ N карточек
   learningSteps: [1, 10],   // шаги обучения, минуты
   relearningSteps: [10],    // шаги переобучения после «Znova», минуты

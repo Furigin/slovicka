@@ -4,13 +4,14 @@
 // «Je dostupná nová verzia — obnoviť», и только по нажатию присылает SKIP_WAITING.
 
 // <assets>
-const VERSION = 'bed2d455e176';
+const VERSION = '39e6bce74e57';
 const ASSETS = [
   './',
   'css/base.css',
   'css/components.css',
   'css/fonts.css',
   'css/views.css',
+  'data/grammar.json',
   'fonts/inter-cyrillic-400-normal.woff2',
   'fonts/inter-cyrillic-600-normal.woff2',
   'fonts/inter-latin-400-normal.woff2',
@@ -39,6 +40,7 @@ const ASSETS = [
   'js/distractors.js',
   'js/dom.js',
   'js/firebase-config.js',
+  'js/grammar-core.js',
   'js/grammar.js',
   'js/i18n.js',
   'js/icons.js',

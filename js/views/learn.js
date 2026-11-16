@@ -2,7 +2,7 @@
 import { h, mount } from '../dom.js';
 import { t, plural, DAYS, ago } from '../i18n.js';
 import { settings, saveSettings } from '../settings.js';
-import { screenTitle } from '../ui.js';
+import { screenTitle, segmented } from '../ui.js';
 import { ICONS } from '../icons.js';
 import { go, rerenderIf } from '../router.js';
 import * as store from '../store.js';
@@ -60,6 +60,7 @@ export async function render(el) {
     startBtn.disabled = total === 0;
     nothing.hidden = total > 0;
     deckField.hidden = mode === 'grammar';
+    grammarField.hidden = mode !== 'grammar';
   };
 
   const deckSel = h('select', {
@@ -69,6 +70,12 @@ export async function render(el) {
   h('option', { value: 'all', selected: deckId === 'all' }, t('learn.allDecks')),
   decks.map((d) => h('option', { value: d.id, selected: d.id === deckId }, d.name)));
   const deckField = h('label', { class: 'field' }, h('span', {}, t('learn.deck')), deckSel);
+  // В режиме грамматики вместо колоды — что тренируем: глаголы, существительные или всё
+  const grammarField = h('div', { class: 'field', hidden: true },
+    h('span', {}, t('mode.grammar')),
+    segmented([
+      { value: 'verbs', label: t('gr.verbs') }, { value: 'nouns', label: t('gr.nouns') }, { value: 'both', label: t('gr.both') },
+    ], s.grammarFilter || 'both', async (grammarFilter) => { await saveSettings({ grammarFilter }); refresh(); }));
 
   const modeHint = h('p', { class: 'small dim', style: { margin: '8px 2px 0' } });
   const setHint = () => { modeHint.textContent = `— ${t(`mode.${mode}.hint`)}`; };
@@ -102,7 +109,7 @@ export async function render(el) {
       h('h3', {}, t('learn.mode')),
       modeSwitch, modeHint,
       h('div', { class: 'section-gap' }),
-      deckField),
+      deckField, grammarField),
     h('div', { class: 'section-gap' }),
     startBtn,
     nothing,
