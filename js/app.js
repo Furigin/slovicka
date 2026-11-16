@@ -37,6 +37,9 @@ function renderFab(routeName) {
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+  // Был ли SW до этой загрузки. Если нет — это первая установка, а не обновление:
+  // ни плашку, ни перезагрузку показывать не нужно.
+  const hadController = !!navigator.serviceWorker.controller;
   let shown = false;
   const showUpdate = (worker) => {
     if (shown) return;
@@ -51,7 +54,7 @@ function registerServiceWorker() {
     reg.addEventListener('updatefound', () => {
       const w = reg.installing;
       w?.addEventListener('statechange', () => {
-        if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdate(w);
+        if (w.state === 'installed' && hadController) showUpdate(w);
       });
     });
     // PWA на iOS почти не перезагружается — проверяем обновления при возвращении в приложение
@@ -62,7 +65,7 @@ function registerServiceWorker() {
 
   let refreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (refreshing) return;
+    if (refreshing || !hadController) return;
     refreshing = true;
     location.reload();
   });

@@ -72,6 +72,27 @@ const scenarios = {
     await page.click('button:has-text("Pridať 10 náhodných")'); await page.waitForTimeout(800);
     await go('#/learn'); await shot('24-learn-after');
   },
+  async stats() {
+    // искусственная история ответов за 3 месяца, чтобы увидеть графики
+    await go('#/learn');
+    await page.evaluate(async () => {
+      const db = await import('./js/db.js');
+      const now = Date.now(), DAY = 864e5, recs = [];
+      for (let d = 0; d < 90; d++) {
+        if (Math.random() < 0.25) continue;
+        const n = Math.floor(Math.random() * 50) + 3;
+        for (let i = 0; i < n; i++) recs.push({ id: `fake${d}-${i}`, ts: now - d * DAY - i * 6e4, cardId: 'x', grade: Math.random() < .8 ? 3 : 1,
+          typeBefore: Math.random() < .2 ? 'new' : 'review', mode: Math.random() < .5 ? 'typing' : 'cards', ms: 8000, diacritic: Math.random() < (0.05 + d / 400) });
+      }
+      await db.put('reviews', recs, { keepTime: true });
+      const cards = await db.getAll('cards');
+      cards.forEach((c, i) => { c.type = 'review'; c.interval = i * 4; c.due = now + (i % 9) * DAY; });
+      await db.put('cards', cards);
+    });
+    await go('#/stats'); await shot('30-stats');
+    await page.evaluate(() => document.getElementById('view').scrollTo(0, 2000)); await shot('31-stats-bottom');
+    await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; }); await shot('32-stats-light');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');
