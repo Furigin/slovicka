@@ -63,7 +63,7 @@ const SK = {
   // словарь
   'dict.all': 'Všetky', 'dict.active': 'Aktívne', 'dict.inactive': 'Neaktívne', 'dict.suspended': 'Pozastavené',
   'dict.activate': 'Pridať do učenia', 'dict.activated': 'Pridané do učenia :)',
-  'dict.addRandom': 'Pridať {n} náhodných', 'dict.addNext': 'Pridať {n} ďalších',
+  'dict.addRandom': '+{n} náhodne', 'dict.addNext': '+{n} po poradí',
   'dict.addedN': 'Do učenia pridaných: {n}',
   'dict.count': '{n} slov', 'dict.empty': 'Nič sa nenašlo :(',
   'dict.decks': 'Balíčky', 'dict.import': 'Import z Anki',
@@ -184,7 +184,7 @@ const RU = {
 
   'dict.all': 'Все', 'dict.active': 'Активные', 'dict.inactive': 'Неактивные', 'dict.suspended': 'Приостановлены',
   'dict.activate': 'Добавить в обучение', 'dict.activated': 'Добавлено в обучение :)',
-  'dict.addRandom': 'Добавить {n} случайных', 'dict.addNext': 'Добавить {n} следующих',
+  'dict.addRandom': '+{n} случайно', 'dict.addNext': '+{n} по порядку',
   'dict.addedN': 'Добавлено в обучение: {n}',
   'dict.count': 'слов: {n}', 'dict.empty': 'Ничего не найдено :(',
   'dict.decks': 'Колоды', 'dict.import': 'Импорт из Anki',

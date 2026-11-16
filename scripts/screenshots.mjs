@@ -54,6 +54,24 @@ const scenarios = {
     // Test
     await go('#/session?mode=test&deck=all'); await shot('16-test');
   },
+  async import() {
+    const file = process.env.USERPROFILE + '/Downloads/Slovakian_-_Russian_words_1319_items__-_.apkg';
+    await go('#/import'); await shot('20-import');
+    await page.setInputFiles('input[type=file]', file);
+    await page.waitForSelector('text=Importovať', { timeout: 20000 });
+    await page.waitForTimeout(500); await shot('21-import-preview');
+    const t0 = Date.now();
+    await page.click('button.big:has-text("Importovať")');
+    await page.waitForURL(/#\/dict/, { timeout: 60000 });
+    console.log(`   импорт занял ${Date.now() - t0} мс`);
+    await page.waitForTimeout(800); await shot('22-dict-after-import');
+    await page.click('.chip:has-text("Neaktívne")'); await page.waitForTimeout(400);
+    await page.fill('input[type=search]', 'patnast'); await page.waitForTimeout(300);
+    await shot('23-dict-search');
+    await page.fill('input[type=search]', '');
+    await page.click('button:has-text("Pridať 10 náhodných")'); await page.waitForTimeout(800);
+    await go('#/learn'); await shot('24-learn-after');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');

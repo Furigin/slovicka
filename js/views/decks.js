@@ -3,7 +3,7 @@ import { h, mount } from '../dom.js';
 import { t, plural, WORDS } from '../i18n.js';
 import { screenTitle, openSheet, switchRow, confirmSheet, toast } from '../ui.js';
 import { ICONS } from '../icons.js';
-import { go } from '../router.js';
+import { go, rerenderIf } from '../router.js';
 import * as store from '../store.js';
 
 function deckSheet(deck, counts, onDone) {
@@ -45,7 +45,7 @@ export async function render(el) {
   const [decks, notes] = await Promise.all([store.listDecks(), store.listNotes()]);
   const counts = {};
   for (const n of notes) counts[n.deckId] = (counts[n.deckId] || 0) + 1;
-  const refresh = () => render(el);
+  const refresh = () => rerenderIf('decks');
 
   mount(el,
     screenTitle(t('deck.manage'),

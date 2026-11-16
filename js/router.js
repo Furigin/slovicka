@@ -57,4 +57,7 @@ export function startRouter() {
 }
 
 export const currentRoute = () => parseHash().name;
+
+/** Перерисовать экран, только если пользователь всё ещё на нём (после долгих async-операций). */
+export function rerenderIf(name) { if (currentRoute() === name) render(); }
 export const routeTab = (name) => ROUTES[name]?.tab;

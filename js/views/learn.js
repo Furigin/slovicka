@@ -4,7 +4,7 @@ import { t, plural, DAYS, ago } from '../i18n.js';
 import { settings, saveSettings } from '../settings.js';
 import { screenTitle } from '../ui.js';
 import { ICONS } from '../icons.js';
-import { go } from '../router.js';
+import { go, rerenderIf } from '../router.js';
 import * as store from '../store.js';
 import * as db from '../db.js';
 import { countToday, todayFromLog } from '../queue.js';
@@ -39,7 +39,7 @@ export async function render(el) {
   const needBackup = notesCount >= 5 && (!lastBackup || Date.now() - lastBackup > 7 * DAY);
   const banner = needBackup && h('div', { class: 'banner' },
     h('div', { class: 'grow' }, t('backup.reminder', { when: lastBackup ? ago(lastBackup) : t('backup.never') })),
-    h('button', { class: 'btn', onclick: async () => { await (await import('../backup.js')).exportBackup(); render(el); } }, t('backup.now')));
+    h('button', { class: 'btn', onclick: async () => { await (await import('../backup.js')).exportBackup(); rerenderIf('learn'); } }, t('backup.now')));
 
   // Счётчики
   const numNew = h('div', { class: 'count-num c-new' }, '–');

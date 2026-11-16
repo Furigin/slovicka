@@ -3,7 +3,7 @@ import { h, mount } from '../dom.js';
 import { t, ago } from '../i18n.js';
 import { settings, saveSettings } from '../settings.js';
 import { screenTitle, segmented, switchRow, numberField, toast } from '../ui.js';
-import { go } from '../router.js';
+import { go, rerenderIf } from '../router.js';
 import * as db from '../db.js';
 
 function stepsField(label, value, onChange) {
@@ -61,7 +61,7 @@ export async function render(el) {
           (theme) => saveSettings({ theme }))),
       switchRow(`${t('set.crt')}: ${s.crt ? t('set.on') : t('set.off')}`, s.crt, async (crt) => {
         await saveSettings({ crt });
-        render(el);
+        rerenderIf('settings');
       })),
 
     h('section', { class: 'panel' },
@@ -90,7 +90,7 @@ export async function render(el) {
           class: 'btn primary block', onclick: async () => {
             const { exportBackup } = await import('../backup.js');
             await exportBackup({ withImages: withImages.v });
-            render(el);
+            rerenderIf('settings');
           },
         }, t('set.export')),
         h('button', { class: 'btn block', onclick: () => backupInput.click() }, t('set.importBackup')),
@@ -105,7 +105,7 @@ export async function render(el) {
         estimate ? ` · ${mb(estimate.usage || 0)} / ${mb(estimate.quota || 0)}` : ''),
       !persisted && h('button', {
         class: 'btn block', style: { marginTop: '10px' },
-        onclick: async () => { const ok = await db.requestPersistence(); toast(ok ? t('set.persisted') : t('set.notPersisted')); render(el); },
+        onclick: async () => { const ok = await db.requestPersistence(); toast(ok ? t('set.persisted') : t('set.notPersisted')); rerenderIf('settings'); },
       }, 'navigator.storage.persist()')),
 
     h('section', { class: 'panel' },

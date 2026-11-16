@@ -5,7 +5,7 @@ import { h, mount } from '../dom.js';
 import { t, plural, WORDS } from '../i18n.js';
 import { screenTitle, toast } from '../ui.js';
 import { ICONS } from '../icons.js';
-import { go } from '../router.js';
+import { go, rerenderIf } from '../router.js';
 import * as store from '../store.js';
 import * as db from '../db.js';
 import { searchKey } from '../textutil.js';
@@ -27,7 +27,9 @@ export async function render(el) {
   for (const [id, cs] of byNote) if (cs.length && cs.every((c) => c.suspended)) suspendedNotes.add(id);
   // Ключи поиска считаем один раз
   const keyed = notes.map((n) => ({ n, k: `${searchKey(n.sk)} ${searchKey(n.ru)} ${searchKey(n.example || '')}` }));
-  keyed.sort((a, b) => a.n.sk.localeCompare(b.n.sk, 'sk'));
+  // сортировка без пояснений в скобках в начале: «(byť) von» стоит на «v»
+  const sortKey = (s) => s.replace(/^\([^)]*\)\s*/, '');
+  keyed.sort((a, b) => sortKey(a.n.sk).localeCompare(sortKey(b.n.sk), 'sk'));
 
   let shown = PAGE;
   const list = h('div', { class: 'list' });
@@ -61,7 +63,7 @@ export async function render(el) {
       : suspendedNotes.has(n.id) ? h('span', { class: 'badge warn', html: ICONS.pause, style: { width: '26px', padding: '2px 5px' } }) : null;
     return h('div', {
       class: ['list-row', !n.active && 'inactive'], role: 'button', tabindex: '0',
-      onclick: () => editNote(n, () => render(el)),
+      onclick: () => editNote(n, () => rerenderIf('dict')),
     },
     h('div', { class: 'main' },
       h('div', { class: 'title', lang: 'sk' }, n.sk),
@@ -92,7 +94,7 @@ export async function render(el) {
     const addIds = async (ids) => {
       await store.activateNotes(ids);
       toast(t('dict.addedN', { n: ids.length }));
-      render(el);
+      rerenderIf('dict');
     };
     mount(bulkBox,
       h('div', { class: 'row' }, nInput,
