@@ -11,7 +11,7 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import webpush from 'web-push';
-import { decide } from '../js/reminder-rules.js';
+import { decide, localTime } from '../js/reminder-rules.js';
 import { vapidPublicKey } from '../js/push-config.js';
 import { firebaseConfig } from '../js/firebase-config.js';
 
@@ -36,7 +36,17 @@ let sent = 0, skipped = 0, removed = 0;
 for (const doc of snap.docs) {
   const data = doc.data();
   const msg = decide(data, now);
-  if (!msg) { skipped++; continue; }
+  if (!msg) {
+    skipped++;
+    // В сухом режиме объясняем, почему пропустили (без адреса подписки и ключей)
+    if (DRY) {
+      const { hour, studyDay } = localTime(now, data.timeZone || 'Europe/Bratislava');
+      console.log(`[dry] ${doc.ref.path}: пропуск — enabled=${!!data.enabled}, подписка=${!!data.subscription}, ` +
+        `сейчас ${hour}:xx (${data.timeZone}), напомнить в ${data.reminderHour}, спасти серию в ${data.saverHour}, ` +
+        `учился сегодня=${data.lastStudyDay === studyDay}, серия=${data.streak ?? 0}, уже отправлено=${JSON.stringify(data.lastSent || {})}`);
+    }
+    continue;
+  }
   const payload = JSON.stringify({
     title: msg.title, body: msg.body, tag: `slovicka-${msg.kind}`, url: './#/learn',
     badge: data.dueByDay?.[msg.day] ?? undefined,
