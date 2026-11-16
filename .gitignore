@@ -5,3 +5,4 @@ node_modules/
 screenshots/
 scripts/.firebase-entry.js
 test-results/
+*-debug.log
