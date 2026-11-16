@@ -1,0 +1,202 @@
+/* ============================================================
+   Дизайн-система «мягкий CRT»: токены, сброс, типографика, эффекты.
+   Акцент — янтарный фосфор. Все цвета — только через переменные.
+   ============================================================ */
+
+:root {
+  --font-ui: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-word: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --gap: 16px;
+  --tabbar-h: 58px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* Тёмная тема (по умолчанию): тёплый почти-чёрный + янтарь */
+:root, :root[data-theme="dark"] {
+  --bg: #13110e;
+  --bg-2: #18150f;
+  --surface: #1e1a14;
+  --surface-2: #26211a;
+  --surface-3: #2f2920;
+  --line: #3a3227;
+  --line-soft: #2a241c;
+  --text: #ecdfc8;
+  --text-dim: #ab9a80;
+  --text-faint: #75684f;
+  --accent: #f2b45c;
+  --accent-strong: #ffc979;
+  --accent-ink: #1b140a;          /* текст на янтарной кнопке */
+  --accent-soft: rgba(242, 180, 92, .12);
+  --accent-glow: rgba(242, 180, 92, .38);
+  --again: #e3775d;
+  --hard: #d9a35a;
+  --good: #a8c87a;
+  --easy: #7fb5c6;
+  --again-soft: rgba(227, 119, 93, .14);
+  --good-soft: rgba(168, 200, 122, .14);
+  --scanline: rgba(0, 0, 0, .16);
+  --vignette: rgba(0, 0, 0, .42);
+  --shadow: 0 6px 24px rgba(0, 0, 0, .35);
+}
+
+/* Светлая тема: «бумага и янтарные чернила» (без CRT-сканлайнов почти не заметна) */
+:root[data-theme="light"] {
+  --bg: #f3ecdf;
+  --bg-2: #eee6d6;
+  --surface: #fbf6ec;
+  --surface-2: #f1e8d7;
+  --surface-3: #e7dcc6;
+  --line: #d6c8ae;
+  --line-soft: #e4d9c4;
+  --text: #2a2218;
+  --text-dim: #6c5c45;
+  --text-faint: #9a8a70;
+  --accent: #a8620c;
+  --accent-strong: #8a4f06;
+  --accent-ink: #fff8ec;
+  --accent-soft: rgba(168, 98, 12, .10);
+  --accent-glow: rgba(168, 98, 12, .18);
+  --again: #b84a30;
+  --hard: #a26a17;
+  --good: #4f7a26;
+  --easy: #2f7488;
+  --again-soft: rgba(184, 74, 48, .10);
+  --good-soft: rgba(79, 122, 38, .10);
+  --scanline: rgba(60, 40, 10, .05);
+  --vignette: rgba(80, 55, 20, .14);
+  --shadow: 0 6px 20px rgba(80, 55, 20, .12);
+}
+
+/* ---------- Сброс ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--bg);
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.45;
+  overflow: hidden;                 /* скроллится только #view — без «резинки» всего окна */
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; touch-action: manipulation; }
+input, select, textarea { font-size: 16px; }  /* < 16px — iOS зумит при фокусе */
+img { max-width: 100%; display: block; }
+a { color: var(--accent); }
+h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.2; }
+p { margin: 0 0 .6em; }
+[hidden] { display: none !important; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- Каркас приложения ---------- */
+#app {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+#view {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  outline: none;
+  padding:
+    calc(var(--safe-top) + 12px)
+    calc(var(--safe-right) + var(--gap))
+    calc(var(--gap) + 76px)          /* место под плавающую кнопку «+» */
+    calc(var(--safe-left) + var(--gap));
+}
+body.no-tabbar #tabbar { display: none; }
+body.no-tabbar #view { padding-bottom: calc(var(--safe-bottom) + var(--gap)); }
+
+/* ---------- CRT-эффекты: очень тонкие сканлайны и виньетка (статичные, без мерцания) ---------- */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+}
+body::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--scanline) 0,
+    var(--scanline) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: .55;
+}
+body::after {
+  background: radial-gradient(ellipse at center, transparent 58%, var(--vignette) 100%);
+}
+.crt-off body::before, .crt-off body::after { display: none; }
+
+/* Свечение акцентов — только при включённых эффектах */
+.glow { text-shadow: 0 0 10px var(--accent-glow); }
+.crt-off .glow { text-shadow: none; }
+
+/* Короткий глитч — микро-анимация на событиях (например, ошибка). Не повторяется. */
+@keyframes glitch {
+  0%   { transform: translate(0); clip-path: inset(0 0 0 0); }
+  20%  { transform: translate(-3px, 1px); clip-path: inset(10% 0 55% 0); }
+  40%  { transform: translate(3px, -1px); clip-path: inset(55% 0 12% 0); }
+  60%  { transform: translate(-2px, 0); clip-path: inset(30% 0 35% 0); }
+  80%  { transform: translate(1px, 0); clip-path: inset(0 0 0 0); }
+  100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+}
+.glitch { animation: glitch 260ms steps(2, end) 1; }
+.crt-off .glitch { animation: none; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 220ms var(--ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Типографика ---------- */
+.mono { font-family: var(--font-ui); }
+.word { font-family: var(--font-word); font-feature-settings: 'cv11', 'ss01'; }
+.dim { color: var(--text-dim); }
+.faint { color: var(--text-faint); }
+.accent { color: var(--accent); }
+.small { font-size: 12.5px; }
+.tiny { font-size: 11px; letter-spacing: .02em; }
+.center { text-align: center; }
+.nowrap { white-space: nowrap; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Заголовок экрана в стиле терминала: «> Učiť sa» */
+.screen-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 4px 0 16px;
+}
+.screen-title::before { content: '>'; color: var(--accent); }
+.screen-title .spacer { flex: 1; }

@@ -1,0 +1,7 @@
+node_modules/
+*.apkg
+.env
+.env.*
+screenshots/
+scripts/.firebase-entry.js
+test-results/
