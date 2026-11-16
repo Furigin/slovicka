@@ -23,9 +23,9 @@ writeFileSync('scripts/.firebase-entry.js', `
 export { initializeApp } from 'firebase/app';
 export { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
-  onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
+  onAuthStateChanged, sendPasswordResetEmail, connectAuthEmulator } from 'firebase/auth';
 export { getFirestore, collection, doc, getDocs, query, where, orderBy, limit,
-  writeBatch, serverTimestamp, Timestamp, startAfter } from 'firebase/firestore/lite';
+  writeBatch, serverTimestamp, Timestamp, startAfter, connectFirestoreEmulator } from 'firebase/firestore/lite';
 `);
 await build({
   entryPoints: ['scripts/.firebase-entry.js'],

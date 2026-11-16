@@ -42,6 +42,11 @@ async function init() {
   const app = fb.initializeApp(firebaseConfig);
   auth = fb.initializeAuth(app, { persistence: [fb.indexedDBLocalPersistence, fb.browserLocalPersistence] });
   fs = fb.getFirestore(app);
+  // Только для автотеста синхронизации (scripts/e2e-sync.mjs) — локальный эмулятор Firebase
+  if (firebaseConfig.emulator) {
+    fb.connectAuthEmulator(auth, `http://${firebaseConfig.emulator}:9099`, { disableWarnings: true });
+    fb.connectFirestoreEmulator(fs, firebaseConfig.emulator, 8080);
+  }
 
   fb.onAuthStateChanged(auth, (u) => {
     user = u;

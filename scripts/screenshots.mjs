@@ -106,6 +106,17 @@ const scenarios = {
     await page.click('[role=group] button:nth-child(2)'); await page.waitForTimeout(200);
     await page.click('.list-row >> nth=4'); await page.waitForTimeout(300); await shot('45-grammar-noun-edit');
   },
+  async ru() {
+    await go('#/settings');
+    await page.click('button:has-text("Русский")'); await page.waitForTimeout(600);
+    await shot('50-ru-settings');
+    await go('#/learn'); await shot('51-ru-learn');
+    await go('#/session?mode=cards&deck=all'); await page.click('.session-actions .btn'); await shot('52-ru-card');
+    await go('#/settings');
+    await page.click('button:has-text("Светлая")'); await page.waitForTimeout(300);
+    await go('#/learn'); await shot('53-light-learn');
+    await go('#/dict'); await shot('54-light-dict');
+  },
   async tabs() {
     await go('#/learn'); await shot('01-learn');
     await go('#/dict'); await shot('02-dict');

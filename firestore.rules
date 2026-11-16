@@ -1,0 +1,17 @@
+rules_version = '2';
+// Правила Firestore для Slovíčka: каждый пользователь видит и меняет только свои данные.
+// Вставить в Firebase Console → Firestore Database → Rules → Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/items/{itemId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasAll(['store', 'id', 'deleted', 'updatedAt'])
+        && request.resource.size() < 200 * 1024;
+    }
+    // всё остальное закрыто
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
