@@ -88,7 +88,7 @@ export async function syncNow({ manual = false } = {}) {
     } catch (e) {
       lastError = e;
       console.warn('sync', e);
-      if (manual) toast(`${t('error')}: ${e.code || e.message}`, { error: true });
+      if (manual) toast(`${t('error')}: ${authError(e)}`, { error: true, timeout: 6000 });
       throw e;
     } finally {
       running = null;
@@ -158,10 +158,27 @@ const AUTH_ERRORS = {
   'auth/weak-password': { sk: 'Heslo musí mať aspoň 6 znakov.', ru: 'Пароль должен быть не короче 6 символов.' },
   'auth/network-request-failed': { sk: 'Nie je pripojenie k sieti.', ru: 'Нет подключения к сети.' },
   'auth/too-many-requests': { sk: 'Príliš veľa pokusov, skús neskôr.', ru: 'Слишком много попыток, попробуй позже.' },
+  // Ошибки настройки проекта в Firebase Console — подсказываем, что включить
+  'auth/operation-not-allowed': {
+    sk: 'Vo Firebase nie je zapnuté prihlásenie e-mailom: Authentication → Sign-in method → Email/Password → Enable.',
+    ru: 'В Firebase не включён вход по email: Authentication → Sign-in method → Email/Password → Enable.',
+  },
+  'auth/configuration-not-found': {
+    sk: 'Vo Firebase nie je zapnutá Authentication: Authentication → Get started → Email/Password.',
+    ru: 'В Firebase не включена Authentication: Authentication → Get started → Email/Password.',
+  },
+  'permission-denied': {
+    sk: 'Firestore odmietol prístup — skontroluj, či sú publikované pravidlá z firestore.rules.',
+    ru: 'Firestore отказал в доступе — проверь, что опубликованы правила из firestore.rules.',
+  },
+  'not-found': {
+    sk: 'Databáza Firestore ešte neexistuje: Firestore Database → Create database.',
+    ru: 'База Firestore ещё не создана: Firestore Database → Create database.',
+  },
 };
 const authError = (e) => {
   const lang = document.documentElement.lang === 'ru' ? 'ru' : 'sk';
-  return AUTH_ERRORS[e.code]?.[lang] || e.message;
+  return AUTH_ERRORS[e?.code]?.[lang] || e?.message || String(e);
 };
 
 export function renderAccountPanel(el) {
@@ -204,7 +221,7 @@ export function renderAccountPanel(el) {
         t('sync.last', { when: lastSync ? ago(lastSync) : t('sync.never') }),
         pending ? ` · ${t('sync.pending', { n: pending })}` : '',
         running ? ' · …' : ''),
-      lastError && h('p', { class: 'small', style: { color: 'var(--again)', margin: 0 } }, lastError.code || lastError.message),
+      lastError && h('p', { class: 'small', style: { color: 'var(--again)', margin: 0 } }, authError(lastError)),
       h('p', { class: 'tiny faint', style: { margin: 0 } }, t('sync.mediaNote')),
       h('div', { class: 'row' },
         h('button', { class: 'btn primary grow', disabled: !!running, onclick: () => syncNow({ manual: true }).catch(() => {}) }, t('sync.now')),
