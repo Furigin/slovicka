@@ -1,0 +1,5 @@
+# Всегда LF: от этого зависит хеш версии в sw.js
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
+*.wasm binary

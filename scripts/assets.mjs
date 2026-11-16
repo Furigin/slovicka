@@ -27,6 +27,11 @@ export function listAssets() {
 
 export function assetsHash(files) {
   const hash = createHash('sha256');
-  for (const f of files) { hash.update(f); hash.update(readFileSync(f)); }
+  for (const f of files) {
+    hash.update(f);
+    const buf = readFileSync(f);
+    // текстовые файлы — без учёта CRLF/LF (Windows), бинарные — как есть
+    hash.update(/\.(png|woff2|wasm)$/.test(f) ? buf : buf.toString('utf8').replace(/\r\n/g, '\n'));
+  }
   return hash.digest('hex').slice(0, 12);
 }
