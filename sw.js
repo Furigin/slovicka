@@ -4,7 +4,7 @@
 // «Je dostupná nová verzia — obnoviť», и только по нажатию присылает SKIP_WAITING.
 
 // <assets>
-const VERSION = 'b5c6cfbf03e0';
+const VERSION = 'f3baf62f0fd9';
 const ASSETS = [
   './',
   'css/base.css',
