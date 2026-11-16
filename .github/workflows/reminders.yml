@@ -12,6 +12,9 @@ on:
       dry_run:
         description: 'Только показать, кому отправилось бы (1 = да)'
         default: '0'
+      test:
+        description: 'Проверочное уведомление на все устройства, в обход правил (1 = да)'
+        default: '0'
 jobs:
   send:
     runs-on: ubuntu-latest
@@ -36,4 +39,5 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           DRY_RUN: ${{ github.event.inputs.dry_run == '1' && '1' || '' }}
+          TEST: ${{ github.event.inputs.test == '1' && '1' || '' }}
         run: node scripts/send-reminders.mjs

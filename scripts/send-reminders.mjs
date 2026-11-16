@@ -7,6 +7,7 @@
 //   FIREBASE_SERVICE_ACCOUNT — JSON сервисного аккаунта Firebase
 //   VAPID_PRIVATE_KEY        — приватный VAPID-ключ (публичный — в js/push-config.js)
 //   DRY_RUN=1                — ничего не отправлять, только показать решения
+//   TEST=1                   — проверочное уведомление всем включённым подпискам (в обход правил)
 //   FIRESTORE_EMULATOR_HOST  — для теста на эмуляторе (тогда сервисный аккаунт не нужен)
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -16,6 +17,7 @@ import { vapidPublicKey } from '../js/push-config.js';
 import { firebaseConfig } from '../js/firebase-config.js';
 
 const DRY = !!process.env.DRY_RUN;
+const TEST = process.env.TEST === '1';
 const emulator = !!process.env.FIRESTORE_EMULATOR_HOST;
 
 if (emulator) initializeApp({ projectId: process.env.GCLOUD_PROJECT || 'demo-slovicka' });
@@ -35,7 +37,10 @@ let sent = 0, skipped = 0, removed = 0;
 
 for (const doc of snap.docs) {
   const data = doc.data();
-  const msg = decide(data, now);
+  // TEST=1 — проверочное уведомление на все включённые подписки, в обход правил
+  const msg = TEST
+    ? (data.enabled && data.subscription ? { kind: 'test', title: 'Slovíčka :)', body: data.lang === 'ru' ? 'Тест: уведомления работают <3' : 'Test: upozornenia fungujú <3', day: null } : null)
+    : decide(data, now);
   if (!msg) {
     skipped++;
     // В сухом режиме объясняем, почему пропустили (без адреса подписки и ключей)
@@ -55,7 +60,7 @@ for (const doc of snap.docs) {
   if (DRY) { sent++; continue; }
   try {
     await webpush.sendNotification(data.subscription, payload, { TTL: 3 * 3600, urgency: 'normal' });
-    await doc.ref.set({ lastSent: { ...(data.lastSent || {}), [msg.kind]: msg.day } }, { merge: true });
+    if (msg.kind !== 'test') await doc.ref.set({ lastSent: { ...(data.lastSent || {}), [msg.kind]: msg.day } }, { merge: true });
     sent++;
   } catch (e) {
     // 404/410 — подписка больше не действует (удалили приложение, сменили телефон)
